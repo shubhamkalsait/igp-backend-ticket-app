@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fra-backend-app
+  labels:
+    app: fra-backend-app
+spec:
+  selector:
+    matchLabels:
+      app: fra-backend-app
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: fra-backend-app
+    spec:
+      containers:
+        - name: fra-backend-app
+          image: shubhamkalsait1/fra-backend:latest
+          ports:
+            - containerPort: 8080

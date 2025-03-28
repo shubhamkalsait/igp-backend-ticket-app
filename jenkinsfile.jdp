@@ -1,0 +1,27 @@
+pipeline {
+    agent any;
+    stages {
+        stage('PULL'){
+            steps{
+                git branch: dev, https://github.com/shubhamkalsait/flight-reservation-app.git
+            }
+        }
+        stage('BUILD'){
+            steps{
+                sh 'mvn clean package'
+            }
+        }
+        stage('TEST'){
+            steps{
+                sh 'mvn sonar:sonar -project-key=flight-reservation'
+            }
+        }
+        stage('DEPLOY'){
+            steps{
+                sh '''docker build .
+                    docker push
+                    kubectl apply'''
+            }
+        }
+    }
+}
