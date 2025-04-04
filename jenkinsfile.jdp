@@ -18,9 +18,9 @@ pipeline {
         // }
         stage('DOCKER-BUILD'){
             steps {
-                sh '''docker build . -t shubhamkalsait1/igp-backend-ticket-app.git
-                    docker push shubhamkalsait1/igp-backend-ticket-app.git
-                    docker rmi shubhamkalsait1/igp-backend-ticket-app.git'''
+                sh '''docker build . -t shubhamkalsait1/igp-backend-ticket-app:latest
+                    docker push shubhamkalsait1/igp-backend-ticket-app:latest
+                    docker rmi shubhamkalsait1/igp-backend-ticket-app:latest'''
             }
         }
         stage('DEPLOY'){
