@@ -3,22 +3,29 @@ pipeline {
     stages {
         stage('PULL'){
             steps {
-                echo 'PULL STage'
+                git branch: 'dev', url: 'https://github.com/shubhamkalsait/igp-backend-ticket-app.git'
             }
         }
         stage('BUILD'){
             steps {
-                echo 'Build STage'
+                sh 'mvn clean package'
             }
         }
-        stage('TEST'){
+        // stage('TEST'){
+        //     steps {
+        //         echo 'Test STage'
+        //     }
+        // }
+        stage('DOCKER-BUILD'){
             steps {
-                echo 'Test STage'
+                sh '''docker build . -t shubhamkalsait1/igp-backend-ticket-app.git
+                    docker push shubhamkalsait1/igp-backend-ticket-app.git
+                    docker rmi shubhamkalsait1/igp-backend-ticket-app.git'''
             }
         }
         stage('DEPLOY'){
             steps {
-                echo 'Deploy STage'
+                sh 'kubectl apply -f yaml/'
             }
         }
     }
