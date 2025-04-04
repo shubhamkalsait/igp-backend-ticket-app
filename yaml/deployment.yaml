@@ -1,21 +1,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fra-backend-app
+  name: igp-backend-ticket-app
   labels:
-    app: fra-backend-app
+    app: igp-backend-ticket-app
 spec:
   selector:
     matchLabels:
-      app: fra-backend-app
+      app: igp-backend-ticket-app
   replicas: 2
   template:
     metadata:
       labels:
-        app: fra-backend-app
+        app: igp-backend-ticket-app
     spec:
       containers:
-        - name: fra-backend-app
-          image: shubhamkalsait1/fra-backend:latest
+        - name: igp-backend-ticket-app
+          image: shubhamkalsait1/igp-backend-ticket-app:latest
           ports:
             - containerPort: 8080
+          env:
+            - name: DATASOURCE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: igp-db-creds
+                  key: DB_URL
+            - name: DATASOURCE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: igp-db-creds
+                  key: DB_USER
+            - name: DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: igp-db-creds
+                  key: DB_PASS 
+            - name: FRONTEND_URL
+              valueFrom:
+                secretKeyRef:
+                  name: igp-db-creds
+                  key: FRONTEND_URL
